@@ -64,7 +64,6 @@ class RedirectIfAuthenticated
         }
 
 
-
         return '/';
     }
 
