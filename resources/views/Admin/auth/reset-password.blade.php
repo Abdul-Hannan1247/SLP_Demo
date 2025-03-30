@@ -1,45 +1,3 @@
-{{-- <x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
-
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout> --}}
-
-
-
 <!doctype html>
 
 <html lang="en">
@@ -66,6 +24,8 @@
             font-feature-settings: "cv03", "cv04", "cv11";
         }
     </style>
+        @vite(['resources/js/admin/login.js'])
+
 </head>
 
 <body class=" d-flex flex-column">
@@ -106,12 +66,12 @@
 
                             </label>
                             <div class="input-group input-group-flat">
-                                <input type="password" name="password" class="form-control" placeholder="Your password"
+                                <input type="password" name="password" class="form-control password" placeholder="Your password"
                                     autocomplete="off" required>
 
 
-                                <span class="input-group-text">
-                                    <a href="#" class="link-secondary" title="Show password"
+                                <span class="input-group-text toggle-password">
+                                    <a href="javascript:;" class="link-secondary" title="Show password"
                                         data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
                                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
@@ -133,12 +93,12 @@
 
                             </label>
                             <div class="input-group input-group-flat">
-                                <input type="password" name="password_confirmation" class="form-control"
+                                <input type="password" name="password_confirmation" class="form-control confirm-password"
                                     placeholder="Your password" autocomplete="off" required>
 
 
-                                <span class="input-group-text">
-                                    <a href="#" class="link-secondary" title="Show password"
+                                <span class="input-group-text confirm-password-toggle">
+                                    <a href="javascript:;" class="link-secondary" title="Show password"
                                         data-bs-toggle="tooltip"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
                                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24"
                                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
