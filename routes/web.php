@@ -1,24 +1,45 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Frontend\FrontdeskDashboardController;
+use App\Http\Controllers\Frontend\UserDashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+/**
+ * ------------------------------------------------------------------
+ *                           Therapist Routes
+ * ------------------------------------------------------------------
+ */
 
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+ Route::group(["middleware" => ['auth:web', 'verified', 'check_role:therapist'], 'prefix' => 'therapist', 'as' => 'therapist.'], function () {
+    route::get('/dashboard', [UserDashboardController::class, 'index'])->name('dashboard');
+});
+
+/**
+ * ------------------------------------------------------------------
+ *                           Frontdesk Routes
+ * ------------------------------------------------------------------
+ */
+Route::group(["middleware" => ['auth:web', 'verified', 'check_role:frontdesk'], 'prefix' => 'frontdesk', 'as' => 'frontdesk.'], function () {
+    route::get('/dashboard', [FrontdeskDashboardController::class, 'index'])->name('dashboard');
 });
 
 
 
-require __DIR__.'/auth.php';
-require __DIR__.'/admin.php';
-require __DIR__.'/superadmin.php';
+
+
+Route::get('/admin/dashboard', function () {
+    return view('admin.dashboard');
+})->middleware(['auth:admin', 'verified'])->name('admin.dashboard');
+
+
+
+
+
+
+require __DIR__ . '/auth.php';
+require __DIR__ . '/admin.php';
+require __DIR__ . '/superadmin.php';
