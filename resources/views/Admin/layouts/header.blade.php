@@ -158,9 +158,10 @@
                     aria-label="Open user menu">
                     <span class="avatar avatar-sm" style="background-image: url(./static/avatars/000m.jpg)"></span>
                     <div class="d-none d-xl-block ps-2">
-                        <div> Patient</div>
-                        <div class="mt-1 small text-secondary">patient</div>
-                        {{-- {{ Auth::user()->role ?? 'Admin' }} --}}
+                        @auth
+                            <div> {{ Auth::user()->name }} </div>
+                        @endauth
+                        <div class="mt-1 small text-secondary">{{ Auth::user()->role ?? 'Admin' }} </div>
                     </div>
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">

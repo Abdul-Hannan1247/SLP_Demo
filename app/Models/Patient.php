@@ -8,14 +8,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Patient extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'name',
         'email',
+        'gender',
         'date_of_birth',
         'phone',
+        'emergency_contact',
         'address',
+        'referral',
+        'picture',
+        'files',
+    ];
+
+    protected $casts = [
+        'files' => 'array',
     ];
 }

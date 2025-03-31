@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\PatientStoreRequest;
 use Illuminate\Http\Request;
 use App\Models\Patient;
-
+use Illuminate\Container\Attributes\Storage;
 
 class PatientController extends Controller
 {
@@ -42,6 +42,16 @@ class PatientController extends Controller
         $picturePath = $request->file('picture')->store('patients/pictures', 'public');
         $patient->picture = $picturePath;
     }
+    // else {
+    //     // Use a default picture
+    //     $defaultPicturePath = 'patients_pic/pictures/avatar.png'; // Path to your default image in storage/app/public/patients/pictures
+    //     if (Storage::disk('public')->exists($defaultPicturePath)) { //ensure that the default picture exists.
+    //          $patient->picture = $defaultPicturePath;
+    //     } else {
+    //          $patient->picture = null; // if default image does not exists, set picture to null.
+    //     }
+    // }
+
 
     if ($request->hasFile('files')) {
         $filePaths = [];
