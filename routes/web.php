@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Frontend\FrontdeskDashboardController;
 use App\Http\Controllers\Frontend\UserDashboardController;
+use App\Http\Controllers\Patient\PatientController;
+// use App\Http\Controllers\PatientController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,9 +39,10 @@ Route::get('/admin/dashboard', function () {
 
 
 
+Route::resource('patients', PatientController::class);
 
 
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
-require __DIR__ . '/superadmin.php';
+// require __DIR__ . '/superadmin.php';
