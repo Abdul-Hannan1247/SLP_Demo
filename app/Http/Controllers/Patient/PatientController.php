@@ -39,7 +39,7 @@ class PatientController extends Controller
     $patient = new Patient($validatedData);
 
     if ($request->hasFile('picture')) {
-        $picturePath = $request->file('picture')->store('patients/pictures', 'public');
+        $picturePath = $request->file('picture')->store('patients/patients_pics', 'public');
         $patient->picture = $picturePath;
     }
     // else {
@@ -102,4 +102,34 @@ class PatientController extends Controller
     {
         return view('patients.show', compact('patient'));
     }
+//--------------------------------------------------------------------------
+//                   Trashed
+//--------------------------------------------------------------------------
+    public function trashed()
+    {
+       // $trashedPatients = Patient::onlyTrashed()->get();
+        return view('patients.trashed');
+        // , compact('trashedPatients'));
+    }
+    
+//--------------------------------------------------------------------------
+//                   Restore
+//--------------------------------------------------------------------------
+    public function restore($id)
+    {
+        $patient = Patient::withTrashed()->findOrFail($id);
+        $patient->restore();
+        return redirect()->route('patients.trashed')->with('success', 'Patient restored successfully.');
+    }
+//--------------------------------------------------------------------------
+//                   ForeDelete
+//--------------------------------------------------------------------------
+   
+    public function forceDelete($id)
+    {
+        $patient = Patient::withTrashed()->findOrFail($id);
+        $patient->forceDelete();
+        return redirect()->route('patients.trashed')->with('success', 'Patient permanently deleted.');
+    }
+
 }

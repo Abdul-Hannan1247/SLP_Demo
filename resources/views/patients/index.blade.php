@@ -2,8 +2,9 @@
 
 @section('content')
     <div class="container">
-        <h1>Patients</h1>
-        <a href="{{ route('patients.create') }}" class="btn btn-primary mb-3">Create New Patient</a>
+        <br><br>
+        <h1>All Patients</h1>
+        <a href="{{ route('patients.create') }}" class="btn btn-primary mb-3 text">Create New Patient</a>
 
         <table class="table table-striped table-hover table-bordered text-center">
             <thead>
@@ -24,26 +25,51 @@
                 @foreach ($patients as $patient)
                     <tr>
                         <td><b>{{ $loop->iteration }}</b></td>
-                        <td>{{ $patient->name }}</td>
-                        <td>{{ $patient->email }}</td>
+                        <td>
+                            <div class="d-flex align-items-center justify-content-center">
+                                @if ($patient->picture)
+                                    <img src="{{ asset('storage/' . $patient->picture) }}" alt="Patient Picture" class="rounded mr-2" style="width: 60px; height: 60px; object-fit: cover;">
+                                @else
+                                    <img src="{{ asset('storage/avatar.png') }}" alt="Default Avatar" class="rounded mr-2" style="width: 60px; height: 60px; object-fit: cover;">
+                                @endif
+                                {{ $patient->name }}
+                            </div>
+                        </td>
+                        <td>{{ $patient->email ? $patient->email : '-' }}</td>
                         <td>{{ $patient->gender }}</td>
                         <td>{{ $patient->date_of_birth }}</td>
                         <td>{{ $patient->phone }}</td>
                         <td>{{ $patient->emergency_contact }}</td>
                         <td>{{ $patient->address }}</td>
-                        <td>{{ $patient->referral }}</td>
+                        <td>{{ $patient->referral ? $patient->referral : 'N/A' }}</td>
                         <td>
                             <a href="{{ route('patients.show', $patient->id) }}" title="View"><i class="bi bi-eye"></i></a>
-                            <a href="{{ route('patients.edit', $patient->id) }}" title="Edit"><i
-                                    class="bi bi-pencil"></i></a>
-                            <form action="{{ route('patients.destroy', $patient->id) }}" method="POST"
-                                style="display: inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-link p-0" title="Delete"
-                                    onclick="return confirm('Are you sure you want to delete this patient?')"><i
-                                        class="bi bi-trash"></i></button>
-                            </form>
+                            <a href="{{ route('patients.edit', $patient->id) }}" title="Edit"><i class="bi bi-pencil"></i></a>
+                            <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $patient->id }}" title="Delete">
+                                <i class="bi bi-trash"></i>
+                            </button>
+
+                            <div class="modal fade" id="deleteModal{{ $patient->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $patient->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel{{ $patient->id }}">Confirm Delete</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete patient: <b>{{ $patient->name }}</b>?
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <form action="{{ route('patients.destroy', $patient->id) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

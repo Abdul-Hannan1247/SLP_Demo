@@ -1,6 +1,5 @@
 @extends('admin.layouts.master')
 
-
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
@@ -29,11 +28,10 @@
                                     </div>
 
                                     <div class="mb-3">
-                                        <label for="email" class="form-label">{{ __('Email Address') }} <span
-                                                class="text-danger">*</span></label>
+                                        <label for="email" class="form-label">{{ __('Email Address') }} </label>
                                         <input id="email" type="email"
                                             class="form-control @error('email') is-invalid @enderror" name="email"
-                                            value="{{ old('email') }}" required autocomplete="email">
+                                            value="{{ old('email') }}" autocomplete="email">
                                         @error('email')
                                             <span class="invalid-feedback"
                                                 role="alert"><strong>{{ $message }}</strong></span>
@@ -123,15 +121,6 @@
                                 <input id="picture" type="file"
                                     class="form-control @error('picture') is-invalid @enderror" name="picture">
                                 @error('picture')
-                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="files" class="form-label">{{ __('Upload Files') }}</label>
-                                <input id="files" type="file"
-                                    class="form-control @error('files') is-invalid @enderror" name="files[]" multiple>
-                                @error('files')
                                     <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                 @enderror
                             </div>

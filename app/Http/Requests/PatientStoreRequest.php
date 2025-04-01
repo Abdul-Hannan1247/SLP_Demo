@@ -26,7 +26,7 @@ class PatientStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:patients|max:255',
+            'email' => 'nullable|string|email|unique:patients|max:255',
             'gender' => 'required|string|in:male,female,other',
             'date_of_birth' => 'nullable|date',
             'phone' => 'required|string|max:20',
@@ -48,7 +48,7 @@ class PatientStoreRequest extends FormRequest
     {
         return [
             'name.required' => 'The name field is required.',
-            'email.required' => 'The email field is required.',
+            // 'email.required' => 'The email field is required.',
             'email.email' => 'Please enter a valid email address.',
             'email.unique' => 'This email address is already in use.',
             'gender.required' => 'Please select a gender.',

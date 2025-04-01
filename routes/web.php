@@ -48,6 +48,7 @@ Route::post('/patient-files/upload', [FileUploadController::class, 'uploadPatien
 
 Route::get('/patient-files/download/{recordId}', [FileUploadController::class, 'downloadMedicalFile'])->name('patient_files.download');
 
+
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
 // require __DIR__ . '/superadmin.php';
