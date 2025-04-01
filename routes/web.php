@@ -30,7 +30,11 @@ Route::group(["middleware" => ['auth:web', 'verified', 'check_role:frontdesk'], 
 });
 
 
-
+/**
+ * ------------------------------------------------------------------
+ *                           Admin Dashboard Routes
+ * ------------------------------------------------------------------
+ */
 
 
 Route::get('/admin/dashboard', function () {
@@ -46,9 +50,21 @@ Route::get('/patient-files/create', [FileUploadController::class, 'create'])->na
 
 Route::post('/patient-files/upload', [FileUploadController::class, 'uploadPatientFile'])->name('patient_files.upload');
 
-Route::get('/patient-files/download/{recordId}', [FileUploadController::class, 'downloadMedicalFile'])->name('patient_files.download');
+Route::get('/patient-files/download/{recordId}', [FileUploadController::class, 'downloadPatientFile'])->name('patient_files.download');
+
+
+
+
+
+Route::get('patient/trashed', [PatientController::class,'trashed'])->name('patients.trashed');
+
+Route::put('/patients/{id}/restore', [PatientController::class, 'restore'])->name('patients.restore');
+
+Route::delete('/patients/{id}/force-delete', [PatientController::class, 'forceDelete'])->name('patients.forceDelete');
+
 
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/admin.php';
+require __DIR__ . '/patient.php';
 // require __DIR__ . '/superadmin.php';
