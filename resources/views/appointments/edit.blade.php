@@ -1,10 +1,10 @@
 @extends('admin.layouts.master')
 
 @section('content')
-    <h1>Create New Session</h1>
+    <h1>Edit Appointment</h1>
 
-    <form action="{{ route('sessions.store') }}" method="POST">
+    {{-- <form action="{{ route('sessions.store') }}" method="POST">
         @csrf
         <button type="submit">Create Session</button>
-    </form>
+    </form> --}}
 @endsection

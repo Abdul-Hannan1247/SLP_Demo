@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Calendar\CalendarController;
 use App\Http\Controllers\Patient\FileUploadController;
 use App\Http\Controllers\Frontend\FrontdeskDashboardController;
@@ -59,7 +60,7 @@ Route::get('/patient-files/download/{recordId}', [FileUploadController::class, '
 
 
 
-Route::get('patient/trashed', [PatientController::class,'trashed'])->name('patients.trashed');
+Route::get('patient/trashed', [PatientController::class, 'trashed'])->name('patients.trashed');
 
 Route::put('/patients/{id}/restore', [PatientController::class, 'restore'])->name('patients.restore');
 
@@ -72,13 +73,19 @@ Route::get('/schedule/calendar', [ScheduleController::class, 'index'])->name('sc
 Route::get('/schedule/events', [ScheduleController::class, 'getEvents']);
 
 
-Route::get('/sessions', [SessionController::class, 'index'])->name('sessions.index');
+/**
+ * 
+ * Appointments routes
+ */
 
-Route::get('/sessions/create', [SessionController::class, 'create'])->name('sessions.create');
-
-Route::post('/sessions', [SessionController::class, 'store'])->name('sessions.store');
-Route::get('/sessions/{session}/edit', [SessionController::class, 'edit'])->name('sessions.edit');
-Route::delete('/sessions/{session}', [SessionController::class, 'destroy'])->name('sessions.destroy');
+Route::prefix('appointments')->name('appointments.')->group(function () {
+    Route::get('/', [AppointmentController::class, 'index'])->name('index');
+    Route::get('/create', [AppointmentController::class, 'create'])->name('create');
+    Route::post('/', [AppointmentController::class, 'store'])->name('store');
+    // Route::get('/{session}/edit', [AppointmentController::class, 'edit'])->name('edit');
+    Route::get('{id}/edit', [AppointmentController::class, 'edit'])->name('edit');
+    Route::delete('/{session}', [AppointmentController::class, 'destroy'])->name('destroy');
+});
 
 
 require __DIR__ . '/auth.php';

@@ -36,6 +36,7 @@ class PatientStoreRequest extends FormRequest
             'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Max 2MB for picture
             'files' => 'nullable|array',
             'files.*' => 'nullable|file|max:10240', // Max 10MB per file
+            
         ];
     }
 

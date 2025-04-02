@@ -21,6 +21,7 @@ class Patient extends Model
         'referral',
         'picture',
         'files',
+        'image_path', // or 'image'
     ];
 
     protected $casts = [

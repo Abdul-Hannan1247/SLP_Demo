@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sessions', function (Blueprint $table) {
+        Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('patient_id'); // Foreign key to patients table
             $table->date('date');
             $table->time('time');
+            $table->string('appointment_notes');
+
             // Add other session-related columns (e.g., notes, duration)
             $table->timestamps();
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sessions');
+        Schema::dropIfExists('appointments');
     }
 };

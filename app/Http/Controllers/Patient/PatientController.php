@@ -66,17 +66,12 @@ public function index(Request $request)
 
     if ($request->hasFile('picture')) {
         $picturePath = $request->file('picture')->store('patients/patients_pics', 'public');
+        // dd($picturePath);
         $patient->picture = $picturePath;
     }
-    // else {
-    //     // Use a default picture
-    //     $defaultPicturePath = 'patients_pic/pictures/avatar.png'; // Path to your default image in storage/app/public/patients/pictures
-    //     if (Storage::disk('public')->exists($defaultPicturePath)) { //ensure that the default picture exists.
-    //          $patient->picture = $defaultPicturePath;
-    //     } else {
-    //          $patient->picture = null; // if default image does not exists, set picture to null.
-    //     }
-    // }
+  
+   
+
 
 
     if ($request->hasFile('files')) {
