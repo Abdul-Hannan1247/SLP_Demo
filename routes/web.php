@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\FrontdeskDashboardController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -70,6 +71,14 @@ Route::delete('/patients/{id}/force-delete', [PatientController::class, 'forceDe
 Route::get('/schedule/calendar', [ScheduleController::class, 'index'])->name('schedule.calendar');
 Route::get('/schedule/events', [ScheduleController::class, 'getEvents']);
 
+
+Route::get('/sessions', [SessionController::class, 'index'])->name('sessions.index');
+
+Route::get('/sessions/create', [SessionController::class, 'create'])->name('sessions.create');
+
+Route::post('/sessions', [SessionController::class, 'store'])->name('sessions.store');
+Route::get('/sessions/{session}/edit', [SessionController::class, 'edit'])->name('sessions.edit');
+Route::delete('/sessions/{session}', [SessionController::class, 'destroy'])->name('sessions.destroy');
 
 
 require __DIR__ . '/auth.php';
