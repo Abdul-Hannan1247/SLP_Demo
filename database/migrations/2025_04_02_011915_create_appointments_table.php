@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('patient_id'); // Foreign key to patients table
             $table->date('date');
             $table->time('time');
-            $table->string('appointment_notes');
+            $table->string('appointment_notes')->nullable();
 
             // Add other session-related columns (e.g., notes, duration)
             $table->timestamps();

@@ -96,7 +96,9 @@ class AppointmentController extends Controller
         return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
     }
 
+    
     /**
+     * 
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Appointment  $appointment
@@ -106,8 +108,43 @@ class AppointmentController extends Controller
     {
         $appointment = Appointment::findOrFail($id); // Fetch the appointment by ID
         $appointment->delete(); // Delete the appointment
-
+        
         return redirect()->route('appointments.index')->with('success', 'Appointment deleted successfully.');
-
+        
     }
+    /**---------------------------------------------------------------------
+     *             Used to integrate Appointment with Calendar                 
+     *---------------------------------------------------------------------
+     */
+
+     public function calendar()
+    {
+        $appointments = Appointment::with('patient')->get();
+
+        $events = [];
+
+        foreach ($appointments as $appointment) {
+            $events[] = [
+                'id' => $appointment->id,
+                'title' => $appointment->time . ' - ' . $appointment->patient->name, // Include time in title
+                'start' => $appointment->date . 'T' . $appointment->time,
+                'end' => $appointment->date . 'T' . $appointment->time, // Adjust if you have end times
+                'url' => route('appointments.edit', $appointment->id),
+                'backgroundColor' => $this->generateRandomColor(), // Generate unique color
+                'borderColor' => $this->generateRandomColor(), // Optional: Border color
+                'textColor' => '#ffffff', // Optional: Text color
+            ];
+        }
+
+        return view('appointments.calendar', compact('events'));
+    }
+
+    // Helper function to generate a random color
+    private function generateRandomColor()
+    {
+        return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
+    }
+    
+    
+    
 }

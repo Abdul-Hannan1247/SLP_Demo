@@ -85,7 +85,10 @@ Route::prefix('appointments')->name('appointments.')->group(function () {
     // Route::get('/{session}/edit', [AppointmentController::class, 'edit'])->name('edit');
     Route::get('{id}/edit', [AppointmentController::class, 'edit'])->name('edit');
     Route::delete('/{session}', [AppointmentController::class, 'destroy'])->name('destroy');
+    Route::get('calendar', [AppointmentController::class, 'calendar'])->name('calendar');
 });
+
+
 
 
 require __DIR__ . '/auth.php';
