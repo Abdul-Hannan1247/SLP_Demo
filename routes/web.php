@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Calendar\CalendarController;
 use App\Http\Controllers\Patient\FileUploadController;
 use App\Http\Controllers\Frontend\FrontdeskDashboardController;
 use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Patient\PatientController;
+use App\Http\Controllers\ScheduleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -61,6 +63,12 @@ Route::get('patient/trashed', [PatientController::class,'trashed'])->name('patie
 Route::put('/patients/{id}/restore', [PatientController::class, 'restore'])->name('patients.restore');
 
 Route::delete('/patients/{id}/force-delete', [PatientController::class, 'forceDelete'])->name('patients.forceDelete');
+
+
+// Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
+
+Route::get('/schedule/calendar', [ScheduleController::class, 'index'])->name('schedule.calendar');
+Route::get('/schedule/events', [ScheduleController::class, 'getEvents']);
 
 
 

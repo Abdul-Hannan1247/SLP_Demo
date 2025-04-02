@@ -10,7 +10,7 @@
     <!-- CSS files -->
     <link href="{{ asset('admin/assets/dist/css/tabler.min.css?1692870487') }}" rel="stylesheet" />
     <link href="{{ asset('admin/assets/dist/css/demo.min.css?1692870487"') }} rel="stylesheet" />
-
+    <link href="{{ asset('admin/assets/dist/css/app.css') }}" rel="stylesheet">
     <style>
         @import url('https://rsms.me/inter/inter.css');
 
@@ -45,8 +45,8 @@
 
     <!--Models -->
     
-    <!--Lib JS -->
-    
+    <!--Lib -->
+    @yield('scripts')
     <!-- Tabler Core -->
     <script src="{{ asset('admin/assets/dist/js/tabler.min.js?1692870487') }}" defer></script>
     <script src="{{ asset('admin/assets/dist/js/demo.min.js?1692870487') }}" defer></script>
