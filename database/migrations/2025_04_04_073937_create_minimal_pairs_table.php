@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('audio1_path');
             $table->string('audio2_path');
             $table->timestamps();
+
             
         });
     }
