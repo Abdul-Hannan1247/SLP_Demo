@@ -177,7 +177,7 @@
                 </li>
 
                 {{-- Staff --}}
-                <li class="nav-item dropdown {{ request()->routeIs('appointments.*') ? 'active show' : '' }}">
+                {{-- <li class="nav-item dropdown {{ request()->routeIs('appointments.*') ? 'active show' : '' }}">
                     <a class="nav-link dropdown-toggle" href="#navbar-appointments" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button"
                         aria-expanded="{{ request()->routeIs('appointments.*') ? 'true' : 'false' }}">
@@ -226,10 +226,10 @@
                             Inactive Members
                         </a>
                     </div>
-                </li>
+                </li> --}}
 
                 {{-- Resources --}}
-                <li class="nav-item dropdown {{ request()->routeIs('appointments.*') ? 'active show' : '' }}">
+                {{-- <li class="nav-item dropdown {{ request()->routeIs('appointments.*') ? 'active show' : '' }}">
                     <a class="nav-link dropdown-toggle" href="#navbar-appointments" data-bs-toggle="dropdown"
                         data-bs-auto-close="false" role="button" aria-expanded="{{ request()->routeIs('appointments.*') ? 'true' : 'false' }}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
@@ -273,10 +273,10 @@
                             Games
                         </a>
                     </div>
-                </li>
+                </li> --}}
 
                 {{-- Reports --}}
-                <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
+                {{-- <li class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('admin.dashboard') }}">
                         <span class="nav-link-icon d-md-none d-lg-inline-block">
                             <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
@@ -292,7 +292,7 @@
                             Reports
                         </span>
                     </a>
-                </li>
+                </li> --}}
 
             </ul>
         </div>

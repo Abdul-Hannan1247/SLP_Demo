@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\Appointment\AppointmentController;
 use App\Http\Controllers\Calendar\CalendarController;
 use App\Http\Controllers\Patient\FileUploadController;
 use App\Http\Controllers\Frontend\FrontdeskDashboardController;
@@ -67,28 +67,26 @@ Route::put('/patients/{id}/restore', [PatientController::class, 'restore'])->nam
 Route::delete('/patients/{id}/force-delete', [PatientController::class, 'forceDelete'])->name('patients.forceDelete');
 
 
-// Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
 
-Route::get('/schedule/calendar', [ScheduleController::class, 'index'])->name('schedule.calendar');
-Route::get('/schedule/events', [ScheduleController::class, 'getEvents']);
-
+Route::resource('appointments', AppointmentController::class);
+Route::get('/appointments/calendar', [AppointmentController::class, 'calendar'])->name('appointments.calendar');
 
 /**
  * 
  * Appointments routes
  */
 
-Route::prefix('appointments')->name('appointments.')->group(function () {
-    Route::get('/', [AppointmentController::class, 'index'])->name('index');
-    Route::get('/create', [AppointmentController::class, 'create'])->name('create');
-    Route::post('/', [AppointmentController::class, 'store'])->name('store');
-    // Route::get('/{session}/edit', [AppointmentController::class, 'edit'])->name('edit');
-    Route::get('{id}/edit', [AppointmentController::class, 'edit'])->name('edit');
-    Route::put('/{appointment}', [AppointmentController::class, 'update'])->name('update');
+// Route::prefix('appointments')->name('appointments.')->group(function () {
+//     Route::get('/', [AppointmentController::class, 'index'])->name('index');
+//     Route::get('/create', [AppointmentController::class, 'create'])->name('create');
+//     Route::post('/', [AppointmentController::class, 'store'])->name('store');
+//     // Route::get('/{session}/edit', [AppointmentController::class, 'edit'])->name('edit');
+//     Route::get('{id}/edit', [AppointmentController::class, 'edit'])->name('edit');
+//     Route::put('/{appointment}', [AppointmentController::class, 'update'])->name('update');
 
-    Route::delete('/{session}', [AppointmentController::class, 'destroy'])->name('destroy');
-    Route::get('calendar', [AppointmentController::class, 'calendar'])->name('calendar');
-});
+//     Route::delete('/{session}', [AppointmentController::class, 'destroy'])->name('destroy');
+//   ;
+// });
 
 
 

@@ -1,74 +1,47 @@
 @extends('admin.layouts.master')
 
 @section('content')
-    <div class="container-xl">
-        <div class="page-header d-print-none">
-            <div class="row align-items-center">
-                <div class="col">
-                    <h2 class="page-title">Edit Appointment</h2>
-                </div>
-                <div class="col-auto ms-auto d-print-none">
-                    <div class="d-flex">
-                        <a href="{{ route('appointments.index') }}" class="btn btn-secondary">Back</a>
-                    </div>
-                </div>
+    <div class="container">
+        <h1>Edit Appointment</h1>
+
+        <form action="{{ route('appointments.update', $appointment) }}" method="POST">
+            @csrf
+            @method('PUT')
+
+            <div class="mb-3">
+                <label for="patient_name" class="form-label">Patient Name</label>
+                <input type="text" class="form-control @error('patient_name') is-invalid @enderror" id="patient_name" name="patient_name" value="{{ old('patient_name', $appointment->patient_name) }}" required>
+                @error('patient_name')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
-        </div>
 
-        <div class="row row-cards">
-            <div class="col-md-8 offset-md-2">
-                <div class="card">
-                    <div class="card-body">
-                        <form action="{{ route('appointments.update', $appointment->id) }}" method="POST">
-                            @csrf
-                            @method('PUT') {{-- Use PUT method for updates --}}
-
-                            <div class="mb-3">
-                                <label class="form-label">Patient</label>
-                                <select class="form-select @error('patient_id') is-invalid @enderror" name="patient_id">
-                                    <option value="">Select Patient</option>
-                                    @foreach ($patients as $patient)
-                                        <option value="{{ $patient->id }}" {{ old('patient_id', $appointment->patient_id) == $patient->id ? 'selected' : '' }}>
-                                            {{ $patient->name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                @error('patient_id')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Date</label>
-                                <input type="date" class="form-control @error('date') is-invalid @enderror" name="date"
-                                       value="{{ old('date', $appointment->date ? $appointment->date->format('Y-m-d') : '') }}">
-                                @error('date')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Time</label>
-                                <input type="time" class="form-control @error('time') is-invalid @enderror" name="time"
-                                       value="{{ old('time', $appointment->time ? $appointment->time->format('H:i') : '') }}">
-                                @error('time')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">Notes</label>
-                                <textarea class="form-control @error('notes') is-invalid @enderror" name="notes" rows="3">{{ old('notes', $appointment->notes) }}</textarea>
-                                @error('notes')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Update Appointment</button>
-                        </form>
-                    </div>
-                </div>
+            <div class="mb-3">
+                <label for="date" class="form-label">Date</label>
+                <input type="date" class="form-control @error('date') is-invalid @enderror" id="date" name="date" value="{{ old('date', $appointment->date) }}" required>
+                @error('date')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
             </div>
-        </div>
+
+            <div class="mb-3">
+                <label for="time" class="form-label">Time (HH:MM)</label>
+                <input type="time" class="form-control @error('time') is-invalid @enderror" id="time" name="time" value="{{ old('time', \Carbon\Carbon::parse($appointment->time)->format('H:i')) }}" required>
+                @error('time')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="appointment_notes" class="form-label">Notes</label>
+                <textarea class="form-control @error('appointment_notes') is-invalid @enderror" id="appointment_notes" name="appointment_notes">{{ old('appointment_notes', $appointment->appointment_notes) }}</textarea>
+                @error('appointment_notes')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <button type="submit" class="btn btn-primary">Update Appointment</button>
+            <a href="{{ route('appointments.index') }}" class="btn btn-secondary">Cancel</a>
+        </form>
     </div>
 @endsection

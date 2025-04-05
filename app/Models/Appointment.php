@@ -14,11 +14,5 @@ class Appointment extends Model
         'date',
         'time',
         'appointment_notes',
-        // '_token', // Add _token here
     ];
-
-    public function patient()
-    {
-        return $this->belongsTo(Patient::class);
-    }
 }
