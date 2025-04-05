@@ -126,9 +126,9 @@ class AppointmentController extends Controller
         foreach ($appointments as $appointment) {
             $events[] = [
                 'id' => $appointment->id,
-                'title' => $appointment->time . ' - ' . $appointment->patient->name, // Include time in title
+                'title' => $appointment->patient->name, // Include time in title
                 'start' => $appointment->date . 'T' . $appointment->time,
-                'end' => $appointment->date . 'T' . $appointment->time, // Adjust if you have end times
+                // 'end' => $appointment->date . 'T' . $appointment->time, // Adjust if you have end times
                 'url' => route('appointments.edit', $appointment->id),
                 'backgroundColor' => $this->generateRandomColor(), // Generate unique color
                 'borderColor' => $this->generateRandomColor(), // Optional: Border color
