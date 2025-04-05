@@ -2,52 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreAppointmentRequest;
 use App\Models\Appointment;
 use App\Models\Patient;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
 {
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+ 
+    public function create(): View
     {
-        $patients = Patient::all(); // Retrieve all patients
-        $existingAppointments = Appointment::with('patient')->get(); //Retrieve all appointments with patient data.
-
-        // dd($patients);
-        return view('appointments.create', compact('patients', 'existingAppointments'));
+        $existingAppointments = Appointment::latest()->take(5)->get(); // Example of fetching existing appointments
+        $appointments = Appointment::with('patient')->latest()->paginate(10); // Adjust pagination as needed
+        return view('appointments.create', compact('appointments','existingAppointments'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+  
+    public function store(StoreAppointmentRequest $request): RedirectResponse
     {
-        $request->validate([
-            'patient_id' => 'required|exists:patients,id',
-            'date' => 'required|date',
-            'time' => 'required',
-            'appointment_notes' => 'nullable|string',
-        ]);
-
- 
-        $patient = Patient::find($request->patient_id); // Fetch the patient
+        $validatedData = $request->validated();
 
         Appointment::create([
-            'patient_id' => $request->patient_id,
-            'date' => $request->date,
-            'time' => $request->time,
-            'appointment_notes' => $request->notes,
+            'patient_name' => $validatedData['patient_name'], // Save the entered name
+            'date' => $validatedData['date'],
+            'time' => $validatedData['time'],
+            'notes' => $validatedData['appointment_notes'] ?? null,
+            // If you still want to associate with a Patient model later, you might need to add logic here
         ]);
-    
-        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
+
+        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully!');
     }
 
     /**
@@ -68,30 +53,31 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $appointment = Appointment::findOrFail($id); // Fetch the appointment by ID
-        return view('appointments.edit', compact('appointment'));
+    // public function edit($id)
+    // {
+    //     $appointment = Appointment::findOrFail($id); // Fetch the appointment by ID
+    //     return view('appointments.edit', compact('appointment'));
         
+    // }
+    public function edit(Appointment $appointment): View
+    {
+        $patients = Patient::all(); // Fetch all patients to populate the dropdown
+        return view('appointments.edit', compact('appointment', 'patients'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
+   
     public function update(Request $request, Appointment $appointment)
     {
         $request->validate([
             'patient_id' => 'required|exists:patients,id',
             'date' => 'required|date',
             'time' => 'required',
-            'notes' => 'nullable|string',
+            'appointment_notes' => 'nullable|string',
         ]);
+        $validatedData = $request->only(['patient_id', 'date', 'time', 'appointment_notes']);
 
-        $appointment->update($request->all());
+
+        $appointment->update($validatedData);
 
         return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
     }

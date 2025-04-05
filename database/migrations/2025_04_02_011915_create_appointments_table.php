@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('patient_id'); // Foreign key to patients table
+            // $table->unsignedBigInteger('patient_id'); // Foreign key to patients table
+            // $table->string('patient_name')->nullable();
             $table->date('date');
             $table->time('time');
             $table->string('appointment_notes')->nullable();
@@ -21,7 +22,7 @@ return new class extends Migration
             // Add other session-related columns (e.g., notes, duration)
             $table->timestamps();
 
-            $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
+            // $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade');
         });
     }
 

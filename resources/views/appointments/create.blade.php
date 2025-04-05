@@ -23,29 +23,11 @@
                                 <h3 class="card-title">Patient Information</h3>
                                 <hr>
                                 <div class="mb-3">
-                                    <label for="patient_id" class="form-label">{{ __('Patient') }} <span class="text-danger">*</span></label>
-                                    <select id="patient_id" class="form-select @error('patient_id') is-invalid @enderror" name="patient_id" required>
-                                        <option value="">{{ __('Select Patient') }}</option>
-                                        @foreach ($patients as $patient)
-                                            <option value="{{ $patient->id }}"
-                                                    data-image="{{ asset('storage/' . $patient->picture) }}"
-                                                    data-name="{{ $patient->name }}" data-phone="{{ $patient->phone }}"
-                                                    data-emergency="{{ $patient->emergency_contact }}">
-                                                {{ $patient->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('patient_id')
+                                    <label for="patient_name" class="form-label">{{ __('Patient Name') }} <span class="text-danger">*</span></label>
+                                    <input type="text" id="patient_name" class="form-control @error('patient_name') is-invalid @enderror" name="patient_name" value="{{ old('patient_name') }}" required>
+                                    @error('patient_name')
                                         <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                     @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Patient Image & Details</label>
-                                    <div class="d-flex align-items-start">
-                                        <img id="patientImage" src="" alt="Patient Image" class="rounded" style="max-width: 150px; margin-right: 20px;">
-                                        <div id="patientDetails"></div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -54,25 +36,28 @@
                                 <hr>
                                 <div class="mb-3">
                                     <label class="form-label">Date <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" name="date" id="dateInput" required>
+                                    <input type="date" class="form-control @error('date') is-invalid @enderror" name="date" id="dateInput" value="{{ old('date') }}" required>
                                     @error('date')
-                                        <div class="text-danger">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Time <span class="text-danger">*</span></label>
-                                    <input type="time" class="form-control" name="time" id="timeInput" required>
+                                    <select class="form-select @error('time') is-invalid @enderror" name="time" id="timeInput" required>
+                                        <option value="">Select Time</option>
+                                    </select>
                                     @error('time')
-                                        <div class="text-danger">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="mb-3">
                                     <label class="form-label">Notes</label>
-                                    <textarea class="form-control" name="notes" rows="3"></textarea>
+                                    <textarea class="form-control @error('appointment_notes') is-invalid @enderror" name="notes" rows="3">{{ old('appointment_notes') ?? $appointment->appointment_notes ?? '' }}</textarea>
+
                                     @error('notes')
-                                        <div class="text-danger">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
@@ -96,7 +81,7 @@
                             <table class="table table-vcenter card-table">
                                 <thead>
                                     <tr>
-                                        <th>Patient</th>
+                                        <th>#</th> <th>Patient</th>
                                         <th>Date</th>
                                         <th>Time</th>
                                         <th>Notes</th>
@@ -104,12 +89,12 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($existingAppointments as $appointment)
+                                    @foreach ($existingAppointments as $index => $appointment)
                                         <tr>
-                                            <td>{{ $appointment->patient->first_name }} {{ $appointment->patient->last_name }}</td>
+                                            <td>{{ $index + 1 }}</td> <td>{{ $appointment->patient_name }}</td>
                                             <td>{{ $appointment->date }}</td>
                                             <td>{{ $appointment->time }}</td>
-                                            <td>{{ $appointment->notes }}</td>
+                                            <td>{{ $appointment->appointment_notes }}</td>
                                             <td>
                                                 <div class="d-flex">
                                                     <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn btn-sm btn-primary me-2">Edit</a>
@@ -134,39 +119,44 @@
 
 @section('scripts')
     <script>
-        // Patient Selection & Details
-        document.getElementById('patient_id').addEventListener('change', function() {
-            var selectedOption = this.options[this.selectedIndex];
-            var imageSrc = selectedOption.getAttribute('data-image');
-            var patientImage = document.getElementById('patientImage');
-            var patientDetails = document.getElementById('patientDetails');
+        document.addEventListener('DOMContentLoaded', function() {
+            const timeInput = document.getElementById('timeInput');
 
-            if (imageSrc) {
-                patientImage.src = imageSrc;
-            } else {
-                patientImage.src = '';
+            function generateTimeOptions() {
+                timeInput.innerHTML = '<option value="">Select Time</option>'; // Clear existing options
+                const startTime = new Date();
+                startTime.setHours(7, 0, 0, 0); // Start at 7:00 AM
+
+                const endTime = new Date();
+                endTime.setHours(22, 45, 0, 0); // End at 10:45 PM (one interval before 11 PM)
+
+                let currentTime = new Date(startTime);
+
+                while (currentTime <= endTime) {
+                    let hours = currentTime.getHours();
+                    const minutes = currentTime.getMinutes().toString().padStart(2, '0');
+                    const ampm = hours >= 12 ? 'PM' : 'AM';
+                    hours = hours % 12;
+                    hours = hours ? hours : 12; // the hour '0' should be '12'
+                    const formattedTime = `${hours.toString().padStart(2, '0')}:${minutes} ${ampm}`;
+                    const timeValue = `${currentTime.getHours().toString().padStart(2, '0')}:${minutes}`; // Store in 24-hour format
+
+                    const option = document.createElement('option');
+                    option.value = timeValue; // Store 24-hour format
+                    option.textContent = formattedTime; // Display 12-hour format
+                    timeInput.appendChild(option);
+
+                    currentTime.setTime(currentTime.getTime() + 15 * 60 * 1000); // Add 15 minutes
+                }
             }
 
-            var patientName = selectedOption.getAttribute('data-name');
-            var patientPhone = selectedOption.getAttribute('data-phone');
-            var patientEmergency = selectedOption.getAttribute('data-emergency');
+            generateTimeOptions();
 
-            var detailsHtml = `
-                <p><strong>Name:</strong> ${patientName}</p>
-                <p><strong>Phone:</strong> ${patientPhone}</p>
-                <p><strong>Emergency:</strong> ${patientEmergency}</p>
-            `;
-
-            patientDetails.innerHTML = detailsHtml;
-        });
-
-        // Date and Time Pickers
-        document.getElementById('dateInput').addEventListener('click', function() {
-            this.showPicker();
-        });
-        document.getElementById('timeInput').addEventListener('click', function() {
-            this.showPicker();
+            // Optional: If you want to retain the selected time after a validation error
+            const oldTime = "{{ old('time') }}";
+            if (oldTime) {
+                timeInput.value = oldTime;
+            }
         });
     </script>
 @endsection
-

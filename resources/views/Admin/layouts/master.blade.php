@@ -15,6 +15,8 @@
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0/dist/css/tom-select.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
 
+    @stack('styles')
+
     <style>
         @import url('https://rsms.me/inter/inter.css');
 
