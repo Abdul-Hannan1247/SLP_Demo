@@ -104,6 +104,7 @@
                 }, 3000);
             }
         });
+        // this is just for testing
     </script>
 @endpush
 
