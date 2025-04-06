@@ -16,10 +16,14 @@ class AppointmentController extends Controller
     public function create()
     {
         $patients = Patient::all(); // Retrieve all patients
-        $existingAppointments = Appointment::with('patient')->get(); //Retrieve all appointments with patient data.
+        // $existingAppointments = Appointment::with('patient')->get(); 
+                   $earliestAppointments = Appointment::orderBy('date', 'asc')
+        ->orderBy('time', 'asc') // To break ties if dates are the same
+        ->take(5)
+        ->get();
 
         // dd($patients);
-        return view('appointments.create', compact('patients', 'existingAppointments'));
+        return view('appointments.create', compact('patients', 'earliestAppointments'));
     }
 
     /**
@@ -31,23 +35,20 @@ class AppointmentController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'patient_id' => 'required|exists:patients,id',
+            'patient_name' => 'required|string|max:255',
             'date' => 'required|date',
             'time' => 'required',
             'appointment_notes' => 'nullable|string',
         ]);
-
- 
-        $patient = Patient::find($request->patient_id); // Fetch the patient
-
+    
         Appointment::create([
-            'patient_id' => $request->patient_id,
+            'patient_name' => $request->patient_name, // Directly store the patient's name
             'date' => $request->date,
             'time' => $request->time,
             'appointment_notes' => $request->notes,
         ]);
     
-        return redirect()->route('appointments.index')->with('success', 'Appointment created successfully.');
+        return redirect()->route('appointments.create')->with('success', 'Appointment created successfully.');
     }
 
     /**
@@ -57,8 +58,8 @@ class AppointmentController extends Controller
      */
     public function index()
     {
-        $appointments = Appointment::with('patient')->get(); // Retrieve appointments with patient data.
-
+        $appointments = Appointment::with('patient')->get(); 
+     
         return view('appointments.index', compact('appointments'));
     }
 
@@ -75,20 +76,14 @@ class AppointmentController extends Controller
         
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request, Appointment $appointment)
     {
         $request->validate([
-            'patient_id' => 'required|exists:patients,id',
+            'patient_name' => 'required|exists:patients,id',
             'date' => 'required|date',
             'time' => 'required',
-            'notes' => 'nullable|string',
+            'appointment_notes' => 'nullable|string',
         ]);
 
         $appointment->update($request->all());
@@ -126,7 +121,7 @@ class AppointmentController extends Controller
         foreach ($appointments as $appointment) {
             $events[] = [
                 'id' => $appointment->id,
-                'title' => $appointment->patient->name, // Include time in title
+                'title' => $appointment->patient_name, // Include time in title
                 'start' => $appointment->date . 'T' . $appointment->time,
                 // 'end' => $appointment->date . 'T' . $appointment->time, // Adjust if you have end times
                 'url' => route('appointments.edit', $appointment->id),

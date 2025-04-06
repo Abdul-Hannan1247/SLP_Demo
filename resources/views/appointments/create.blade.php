@@ -4,119 +4,122 @@
 
 @section('content')
     <div class="container-xl">
-        <div class="page-header d-print-none">
-            <div class="row align-items-center">
+        <div class="page-header d-print-none mb-3 bg-primary text-white rounded">
+            <div class="row align-items-center ">
                 <div class="col">
-                    <h2 class="page-title">Create Appointment</h2>
+                    <br>
+                    <h2 class="page-title bg-primary text-white py-2 px-3"> Create Appointments</h2>
+                    <br>
                 </div>
             </div>
         </div>
 
-        <div class="row row-cards">
-            <div class="col-md-8">
+        @if (session('success'))
+            <div id="success-notification" class="alert alert-success alert-dismissible fade show d-flex align-items-center position-fixed top-2 end-0 m-3" role="alert"
+                 style="top: 60px; z-index: 1050; background-color: #d4edda;">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill" />
+                </svg>
+                <div>
+                    {{ session('success') }}
+                </div>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <div class="row row-cards mb-4">
+            <div class="col-md-12">
                 <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">New Appointment</h3>
+                    </div>
                     <div class="card-body">
-                        <form action="{{ route('appointments.store') }}" method="POST">
+                        <form action="{{ route('appointments.store') }}" method="POST" novalidate>
                             @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="patient_name" class="form-label">{{ __('Patient Name') }} <span class="text-danger">*</span></label>
+                                        <input type="text" id="patient_name" class="form-control @error('patient_name') is-invalid @enderror" name="patient_name" placeholder="{{ __('Enter patient\'s name') }}" required>
+                                        @error('patient_name')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        @enderror
+                                    </div>
 
-                            <div class="mb-4">
-                                <h3 class="card-title">Patient Information</h3>
-                                <hr>
-                                <div class="mb-3">
-                                    <label for="patient_id" class="form-label">{{ __('Patient') }} <span class="text-danger">*</span></label>
-                                    <select id="patient_id" class="form-select @error('patient_id') is-invalid @enderror" name="patient_id" required>
-                                        <option value="">{{ __('Select Patient') }}</option>
-                                        @foreach ($patients as $patient)
-                                            <option value="{{ $patient->id }}"
-                                                    data-image="{{ asset('storage/' . $patient->picture) }}"
-                                                    data-name="{{ $patient->name }}" data-phone="{{ $patient->phone }}"
-                                                    data-emergency="{{ $patient->emergency_contact }}">
-                                                {{ $patient->name }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                    @error('patient_id')
-                                        <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
-                                    @enderror
+                                    <div class="mb-3">
+                                        <label class="form-label">Date <span class="text-danger">*</span></label>
+                                        <input type="date" class="form-control @error('date') is-invalid @enderror" name="date" id="dateInput" required>
+                                        @error('date')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label">Time <span class="text-danger">*</span></label>
+                                        <input type="time" class="form-control @error('time') is-invalid @enderror" name="time" id="timeInput" required>
+                                        @error('time')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
 
-                                <div class="mb-3">
-                                    <label class="form-label">Patient Image & Details</label>
-                                    <div class="d-flex align-items-start">
-                                        <img id="patientImage" src="" alt="Patient Image" class="rounded" style="max-width: 150px; margin-right: 20px;">
-                                        <div id="patientDetails"></div>
+                                    <div class="mb-3">
+                                        <label class="form-label">Notes</label>
+                                        <textarea class="form-control @error('appointment_notes') is-invalid @enderror" name="appointment_notes" rows="4"></textarea>
+                                        @error('appointment_notes')
+                                            <div class="text-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="mb-4">
-                                <h3 class="card-title">Appointment Details</h3>
-                                <hr>
-                                <div class="mb-3">
-                                    <label class="form-label">Date <span class="text-danger">*</span></label>
-                                    <input type="date" class="form-control" name="date" id="dateInput" required>
-                                    @error('date')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Time <span class="text-danger">*</span></label>
-                                    <input type="time" class="form-control" name="time" id="timeInput" required>
-                                    @error('time')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-3">
-                                    <label class="form-label">Notes</label>
-                                    <textarea class="form-control" name="notes" rows="3"></textarea>
-                                    @error('notes')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-
                             <div class="form-footer">
-                                <button type="submit" class="btn btn-primary">Create Appointment</button>
-                                <a href="{{ route('appointments.index') }}" class="btn btn-secondary">Cancel</a>
+                                <button type="submit" class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i> Create Appointment</button>
+                                <a href="{{ route('appointments.index') }}" class="btn btn-secondary ms-2"><i class="bi bi-x-circle me-2"></i> Cancel</a>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+        </div>
 
-            <div class="col-md-4">
+        <div class="row row-cards">
+            <div class="col-md-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title">Existing Appointments</h3>
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title">Earliest Appointments</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-vcenter card-table">
-                                <thead>
+                            <table class="table table-vcenter card-table table-striped table-hover table-bordered text-center">
+                                <thead class="table-light">
                                     <tr>
+                                        <th class="w-1">#</th>
                                         <th>Patient</th>
                                         <th>Date</th>
                                         <th>Time</th>
                                         <th>Notes</th>
-                                        <th class="w-1"></th>
+                                        <th class="w-1">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($existingAppointments as $appointment)
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @foreach ($earliestAppointments as $appointment)
                                         <tr>
-                                            <td>{{ $appointment->patient->first_name }} {{ $appointment->patient->last_name }}</td>
-                                            <td>{{ $appointment->date }}</td>
-                                            <td>{{ $appointment->time }}</td>
-                                            <td>{{ $appointment->notes }}</td>
+                                            <td><span class="text-muted">{{ $i++ }}</span></td>
+                                            <td>{{ $appointment->patient_name }}</td>
+                                            <td><span>{{ \Carbon\Carbon::parse($appointment->date)->format('d M, Y') }}</span></td>
+                                            <td><span>{{ \Carbon\Carbon::parse($appointment->time)->format('h:i A') }}</span></td>
+                                            <td>{{ Str::limit($appointment->appointment_notes, 50) }}</td>
                                             <td>
                                                 <div class="d-flex">
-                                                    <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn btn-sm btn-primary me-2">Edit</a>
+                                                    <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn btn-sm btn-primary me-2"><i class="bi bi-pencil"></i> Edit</a>
                                                     <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this appointment?')">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                                        <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>
                                                     </form>
                                                 </div>
                                             </td>
@@ -134,33 +137,7 @@
 
 @section('scripts')
     <script>
-        // Patient Selection & Details
-        document.getElementById('patient_id').addEventListener('change', function() {
-            var selectedOption = this.options[this.selectedIndex];
-            var imageSrc = selectedOption.getAttribute('data-image');
-            var patientImage = document.getElementById('patientImage');
-            var patientDetails = document.getElementById('patientDetails');
-
-            if (imageSrc) {
-                patientImage.src = imageSrc;
-            } else {
-                patientImage.src = '';
-            }
-
-            var patientName = selectedOption.getAttribute('data-name');
-            var patientPhone = selectedOption.getAttribute('data-phone');
-            var patientEmergency = selectedOption.getAttribute('data-emergency');
-
-            var detailsHtml = `
-                <p><strong>Name:</strong> ${patientName}</p>
-                <p><strong>Phone:</strong> ${patientPhone}</p>
-                <p><strong>Emergency:</strong> ${patientEmergency}</p>
-            `;
-
-            patientDetails.innerHTML = detailsHtml;
-        });
-
-        // Date and Time Pickers
+        // Date and Time Pickers (Keep these if you are using the native browser pickers)
         document.getElementById('dateInput').addEventListener('click', function() {
             this.showPicker();
         });
@@ -170,3 +147,34 @@
     </script>
 @endsection
 
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notification = document.getElementById('success-notification');
+            if (notification) {
+                // Remove Bootstrap's fade classes to avoid conflicts
+                notification.classList.remove('fade', 'show');
+
+                // Set initial opacity and transition
+                notification.style.opacity = 0;
+                notification.style.transition = 'opacity 1s ease-in-out';
+
+                // Fade in
+                setTimeout(function() {
+                    notification.style.opacity = 1;
+                }, 100);
+
+                // Fade out after 3 seconds
+                setTimeout(function() {
+                    notification.style.opacity = 0;
+                    // Remove after transition
+                    setTimeout(function() {
+                        notification.remove();
+                    }, 1000);
+                }, 3000);
+            }
+        });
+    </script>
+@endpush
