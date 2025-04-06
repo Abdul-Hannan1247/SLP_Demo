@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Patient;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 
 class AppointmentController extends Controller
@@ -63,42 +65,42 @@ class AppointmentController extends Controller
         return view('appointments.index', compact('appointments'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $appointment = Appointment::findOrFail($id); // Fetch the appointment by ID
+    public function edit($id) {
+        $appointment = Appointment::findOrFail($id);
+    
         return view('appointments.edit', compact('appointment'));
-        
     }
 
     
     public function update(Request $request, Appointment $appointment)
     {
-        $request->validate([
-            'patient_name' => 'required|exists:patients,id',
+        // 1. Validate the incoming request data
+        $rules = [
+            'patient_name' => 'required|string|max:255',
             'date' => 'required|date',
-            'time' => 'required',
+            'time' => 'required|date_format:H:i', // Adjust format if needed
             'appointment_notes' => 'nullable|string',
-        ]);
+        ];
 
-        $appointment->update($request->all());
+        $validator = Validator::make($request->all(), $rules);
 
-        return redirect()->route('appointments.index')->with('success', 'Appointment updated successfully.');
+        if ($validator->fails()) {
+            return Redirect::back()->withErrors($validator)->withInput();
+        }
+
+        // 2. Update the appointment model
+        $appointment->patient_name = $request->patient_name;
+        $appointment->date = $request->date;
+        $appointment->time = $request->time;
+        $appointment->appointment_notes = $request->appointment_notes;
+        $appointment->save();
+
+        // 3. Redirect the user with a success message
+        return Redirect::route('appointments.index')->with('success', 'Appointment updated successfully!');
     }
 
     
-    /**
-     * 
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy($id)
     {
         $appointment = Appointment::findOrFail($id); // Fetch the appointment by ID

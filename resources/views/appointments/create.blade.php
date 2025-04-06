@@ -114,13 +114,37 @@
                                             <td><span>{{ \Carbon\Carbon::parse($appointment->time)->format('h:i A') }}</span></td>
                                             <td>{{ Str::limit($appointment->appointment_notes, 50) }}</td>
                                             <td>
-                                                <div class="d-flex">
-                                                    <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn btn-sm btn-primary me-2"><i class="bi bi-pencil"></i> Edit</a>
-                                                    <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this appointment?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Delete</button>
-                                                    </form>
+                                                <div class="d-flex justify-content-center">
+                                                    <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn btn-sm btn-primary me-2">
+                                                        <i class="bi bi-pencil"></i> Edit
+                                                    </a>
+                                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $appointment->id }}">
+                                                        <i class="bi bi-trash"></i> Delete
+                                                    </button>
+
+                                                    <div class="modal fade" id="deleteModal{{ $appointment->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $appointment->id }}" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-danger text-white">
+                                                                    <h5 class="modal-title" id="deleteModalLabel{{ $appointment->id }}">Confirm Delete</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Are you sure you want to delete the appointment for <strong>{{ $appointment->patient_name }}</strong> on {{ \Carbon\Carbon::parse($appointment->date)->format('d M, Y') }} at {{ \Carbon\Carbon::parse($appointment->time)->format('h:i A') }}?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                    <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" class="d-inline">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="btn btn-danger">
+                                                                            <i class="bi bi-trash"></i> Delete
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>

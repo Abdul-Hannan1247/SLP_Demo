@@ -7,7 +7,7 @@
                 <h2>Appointments</h2>
 
                 @if (session('success'))
-                    <div id="success-notification" class="alert alert-success d-flex align-items-center position-fixed top-2 end-0 m-3" role="alert"
+                    <div id="success-notification" class="alert alert-success alert-dismissible fade show d-flex align-items-center position-fixed top-2 end-0 m-3" role="alert"
                          style="top: 60px; z-index: 1050; background-color: #d4edda;">
                         <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
                             <use xlink:href="#check-circle-fill" />
@@ -15,6 +15,7 @@
                         <div>
                             {{ session('success') }}
                         </div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 @endif
                 <a href="{{ route('appointments.create') }}" class="btn btn-primary">
@@ -28,15 +29,15 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered">
+                            <table class="table table-striped table-hover table-bordered text-center">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>Patient Name</th>
-                                        <th>Date</th>
-                                        <th>Time</th>
-                                        <th>Notes</th>
-                                        <th>Actions</th>
+                                        <th class="fs-4">#</th>
+                                        <th class="fs-4">Patient Name</th>
+                                        <th class="fs-4">Date</th>
+                                        <th class="fs-4">Time</th>
+                                        <th class="fs-4">Notes</th>
+                                        <th class="fs-4">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -51,17 +52,37 @@
                                             <td>{{ $appointment->time }}</td>
                                             <td>{{ $appointment->appointment_notes }}</td>
                                             <td>
-                                                <div class="d-flex">
+                                                <div class="d-flex justify-content-center">
                                                     <a href="{{ route('appointments.edit', $appointment->id) }}" class="btn btn-sm btn-primary me-2">
                                                         <i class="bi bi-pencil"></i> Edit
                                                     </a>
-                                                    <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this appointment?')">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger">
-                                                            <i class="bi bi-trash"></i> Delete
-                                                        </button>
-                                                    </form>
+                                                    <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal{{ $appointment->id }}">
+                                                        <i class="bi bi-trash"></i> Delete
+                                                    </button>
+
+                                                    <div class="modal fade" id="deleteModal{{ $appointment->id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ $appointment->id }}" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-danger text-white">
+                                                                    <h5 class="modal-title" id="deleteModalLabel{{ $appointment->id }}">Confirm Delete</h5>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    Are you sure you want to delete the appointment for <strong>{{ $appointment->patient_name }}</strong> on {{ $appointment->date }} at {{ $appointment->time }}?
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                                    <form action="{{ route('appointments.destroy', $appointment->id) }}" method="POST" class="d-inline">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit" class="btn btn-danger">
+                                                                            <i class="bi bi-trash"></i> Delete
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>
@@ -104,9 +125,5 @@
                 }, 3000);
             }
         });
-        // this is demo
-        // this is demo
     </script>
 @endpush
-
-

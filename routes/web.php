@@ -69,9 +69,6 @@ Route::delete('/patients/{id}/force-delete', [PatientController::class, 'forceDe
 
 // Route::get('/calendar', [CalendarController::class, 'index'])->name('calendar.index');
 
-Route::get('/schedule/calendar', [ScheduleController::class, 'index'])->name('schedule.calendar');
-Route::get('/schedule/events', [ScheduleController::class, 'getEvents']);
-
 
 /**
  * 
@@ -84,6 +81,7 @@ Route::prefix('appointments')->name('appointments.')->group(function () {
     Route::post('/', [AppointmentController::class, 'store'])->name('store');
     // Route::get('/{session}/edit', [AppointmentController::class, 'edit'])->name('edit');
     Route::get('{id}/edit', [AppointmentController::class, 'edit'])->name('edit');
+    Route::put('{id}', [AppointmentController::class, 'update'])->name('update');
     Route::delete('/{session}', [AppointmentController::class, 'destroy'])->name('destroy');
     Route::get('calendar', [AppointmentController::class, 'calendar'])->name('calendar');
 });
