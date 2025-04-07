@@ -8,6 +8,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Dashboard - Tabler - Premium and Open Source dashboard template with responsive and high quality UI.</title>
     <!-- CSS files -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css">
+
     <link href="{{ asset('admin/assets/dist/css/tabler.min.css?1692870487') }}" rel="stylesheet" />
     <link href="{{ asset('admin/assets/dist/css/demo.min.css?1692870487"') }} rel="stylesheet" />
     <link href="{{ asset('admin/assets/dist/css/app.css') }}" rel="stylesheet">
@@ -15,6 +17,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.0/dist/css/tom-select.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
 
+    @stack('styles')
     <style>
         @import url('https://rsms.me/inter/inter.css');
 
@@ -24,6 +27,44 @@
 
         body {
             font-feature-settings: "cv03", "cv04", "cv11";
+        }
+
+        .navbar-vertical .nav-item.active>.nav-link {
+            background-color: #007bff !important;
+            /* Blue background */
+            color: white !important;
+            border-radius: 4px;
+            /* Optional: Add a slight rounding */
+        }
+
+        .navbar-vertical .nav-item.active>.nav-link .nav-link-icon svg {
+            fill: white !important;
+            /* Fill the icon with white */
+            color: white !important;
+            /* Also set the stroke color to white */
+        }
+
+        .navbar-vertical .nav-item.dropdown.active>.nav-link {
+            background-color: #007bff !important;
+            /* Blue background for the dropdown parent */
+            color: white !important;
+            border-radius: 4px;
+        }
+
+        .navbar-vertical .nav-item.dropdown.active>.nav-link .nav-link-icon svg {
+            fill: white !important;
+            color: white !important;
+        }
+
+        .navbar-vertical .dropdown-menu .dropdown-item.active {
+            background-color: #0056b3 !important;
+            /* Darker blue for active dropdown item */
+            color: white !important;
+        }
+
+        .navbar-vertical .dropdown-menu .dropdown-item.active svg {
+            fill: white !important;
+            color: white !important;
         }
     </style>
 </head>
@@ -48,7 +89,7 @@
     </div>
 
     <!--Models -->
-    
+
     <!--Lib -->
     @stack('scripts')
     @yield('scripts')

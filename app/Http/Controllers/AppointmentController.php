@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\Patient;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -19,21 +20,27 @@ class AppointmentController extends Controller
     {
         $patients = Patient::all(); // Retrieve all patients
         // $existingAppointments = Appointment::with('patient')->get(); 
-                   $earliestAppointments = Appointment::orderBy('date', 'asc')
-        ->orderBy('time', 'asc') // To break ties if dates are the same
-        ->take(5)
+        //            $earliestAppointments = Appointment::orderBy('date', 'asc')
+        // ->orderBy('time', 'asc') // To break ties if dates are the same
+        // ->take(5)
+        // ->get();
+        $now = Carbon::now('Asia/Karachi'); // Set the correct timezone for Lahore
+
+        $earliestAppointments = Appointment::where('date', '>', $now->toDateString())
+        ->orWhere(function ($query) use ($now) {
+            $query->where('date', '=', $now->toDateString())
+                  ->where('time', '>', $now->toTimeString());
+        })
+        ->orderBy('date')
+        ->orderBy('time')
+        ->limit(5)
         ->get();
 
         // dd($patients);
         return view('appointments.create', compact('patients', 'earliestAppointments'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+   
     public function store(Request $request)
     {
         $request->validate([
@@ -47,7 +54,7 @@ class AppointmentController extends Controller
             'patient_name' => $request->patient_name, // Directly store the patient's name
             'date' => $request->date,
             'time' => $request->time,
-            'appointment_notes' => $request->notes,
+            'appointment_notes' => $request->appointment_notes,
         ]);
     
         return redirect()->route('appointments.create')->with('success', 'Appointment created successfully.');
@@ -78,7 +85,7 @@ class AppointmentController extends Controller
         $rules = [
             'patient_name' => 'required|string|max:255',
             'date' => 'required|date',
-            'time' => 'required|date_format:H:i', // Adjust format if needed
+            'time' => 'required', // Adjust format if needed
             'appointment_notes' => 'nullable|string',
         ];
 
@@ -141,6 +148,7 @@ class AppointmentController extends Controller
     {
         return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
     }
+    
     
     
     

@@ -87,7 +87,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-primary text-white">
-                        <h3 class="card-title">Earliest Appointments</h3>
+                        <h3 class="card-title">Upcomming Appointments</h3>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">

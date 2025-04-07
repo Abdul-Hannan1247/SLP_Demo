@@ -8,6 +8,7 @@ use App\Http\Controllers\Frontend\UserDashboardController;
 use App\Http\Controllers\Patient\PatientController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SessionController;
+use App\Models\Appointment;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -85,6 +86,13 @@ Route::prefix('appointments')->name('appointments.')->group(function () {
     Route::delete('/{session}', [AppointmentController::class, 'destroy'])->name('destroy');
     Route::get('calendar', [AppointmentController::class, 'calendar'])->name('calendar');
 });
+
+
+
+
+
+
+Route::get('/test', [AppointmentController::class, 'test']);
 
 
 
