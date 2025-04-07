@@ -20,7 +20,7 @@ class ItemSeeder extends Seeder
         // Example items - replace with your actual data and file paths
         Item::create([
             'name' => 'cat',
-            'image_path' => 'storage/games/images/cat.lpg',
+            'image_path' => 'storage/games/images/cat.jpg',
             'audio_instruction_path' => 'storage/games/audios/cat.mp3',
         ]);
         Item::create([
@@ -32,6 +32,11 @@ class ItemSeeder extends Seeder
             'name' => 'Blue Car',
             'image_path' => 'storage/games/images/blueCar.jpg',
             'audio_instruction_path' => 'storage/games/audios/blueCar.mp3',
+        ]);
+        Item::create([
+            'name' => 'Pen',
+            'image_path' => 'storage/games/images/pen.jpg',
+            'audio_instruction_path' => 'storage/games/audios/pen.mp3',
         ]);
   
     }
