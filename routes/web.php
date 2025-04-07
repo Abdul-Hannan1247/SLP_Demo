@@ -1,14 +1,11 @@
 <?php
 
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\Calendar\CalendarController;
 use App\Http\Controllers\Patient\FileUploadController;
 use App\Http\Controllers\Frontend\FrontdeskDashboardController;
 use App\Http\Controllers\Frontend\UserDashboardController;
+use App\Http\Controllers\Games\FindItemGameController;
 use App\Http\Controllers\Patient\PatientController;
-use App\Http\Controllers\ScheduleController;
-use App\Http\Controllers\SessionController;
-use App\Models\Appointment;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -89,15 +86,21 @@ Route::prefix('appointments')->name('appointments.')->group(function () {
 
 
 
+/**------------------------------------------------------------------
+ * 
+ *                  Routes for Games
+ * -----------------------------------------------------------------
+ */
+Route::get('games/find-item-game', [FindItemGameController::class, 'index'])->name('games.find_item_game');
+// Route::post('/find-item-game/check-answer', [FindItemGameController::class, 'checkAnswer'])->name('find_item_game.check_answer');
 
-
-
-Route::get('/test', [AppointmentController::class, 'test']);
+// Route::get('/test', [AppointmentController::class, 'test']);
 
 
 
 
 require __DIR__ . '/auth.php';
+require __DIR__ . '/api.php';
 require __DIR__ . '/admin.php';
 require __DIR__ . '/patient.php';
 // require __DIR__ . '/superadmin.php';
