@@ -1,25 +1,20 @@
 @extends('admin.layouts.master')
 
 @section('content')
-<br>
-<br>
-<br>
-<br>
+<br><br><br><br>
     <div class="container">
         @if (session('success'))
-        <div id="success-notification" class="alert alert-success d-flex align-items-center position-fixed top-2 end-0 m-3" role="alert"
-        style="top: 60px; z-index: 1050; background-color: #d4edda;">
-            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
-                <use xlink:href="#check-circle-fill" />
-            </svg>
-            <div>
-                {{ session('success') }}
+            <div id="success-notification" class="alert alert-success d-flex align-items-center position-fixed top-2 end-0 m-3" role="alert"
+                 style="top: 60px; z-index: 1050; background-color: #d4edda;">
+                <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                    <use xlink:href="#check-circle-fill"/>
+                </svg>
+                <div>
+                    {{ session('success') }}
+                </div>
             </div>
-        </div>
-    @endif
+        @endif
 
-
-        
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
@@ -104,9 +99,18 @@
                                             <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
                                         @enderror
                                     </div>
+
+
                                 </div>
                             </div>
-
+                                    {{-- New Diagnose Field --}}
+                                    <div class="mb-3">
+                                        <label for="diagnose" class="form-label">{{ __('Diagnose') }} <span class="text-danger">*</span></label>
+                                        <textarea id="diagnose" class="form-control @error('diagnose') is-invalid @enderror" name="diagnose">{{ old('diagnose') }}</textarea>
+                                        @error('diagnose')
+                                            <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                        @enderror
+                                    </div>
                             <div class="mb-3">
                                 <label for="picture" class="form-label">{{ __('Profile Picture') }}</label>
                                 <input id="picture" type="file" class="form-control @error('picture') is-invalid @enderror" name="picture">

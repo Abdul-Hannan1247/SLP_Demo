@@ -92,6 +92,14 @@
                             </div>
 
                             <div class="mb-3">
+                                <label for="diagnose" class="form-label">{{ __('Diagnose') }}</label>
+                                <textarea id="diagnose" class="form-control @error('diagnose') is-invalid @enderror" name="diagnose">{{ old('diagnose', $patient->diagnose) }}</textarea>
+                                @error('diagnose')
+                                    <span class="invalid-feedback" role="alert"><strong>{{ $message }}</strong></span>
+                                @enderror
+                            </div>
+
+                            <div class="mb-3">
                                 <label for="picture" class="form-label">{{ __('Profile Picture') }}</label>
                                 <input id="picture" type="file" class="form-control @error('picture') is-invalid @enderror" name="picture">
                                 @error('picture')

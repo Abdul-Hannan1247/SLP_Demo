@@ -29,7 +29,8 @@ public function index(Request $request)
                     ->orWhere('phone', 'like', "%{$search}%")
                     ->orWhere('emergency_contact', 'like', "%{$search}%")
                     ->orWhere('address', 'like', "%{$search}%")
-                    ->orWhere('referral', 'like', "%{$search}%");
+                    ->orWhere('referral', 'like', "%{$search}%")
+                    ->orWhere('diagnose', 'like', "%{$search}%");
             });
         }
 
@@ -71,9 +72,6 @@ public function index(Request $request)
     }
   
    
-
-
-
     if ($request->hasFile('files')) {
         $filePaths = [];
         foreach ($request->file('files') as $file) {
@@ -142,7 +140,8 @@ public function trashed(Request $request)
                 ->orWhere('phone', 'like', "%{$search}%")
                 ->orWhere('emergency_contact', 'like', "%{$search}%")
                 ->orWhere('address', 'like', "%{$search}%")
-                ->orWhere('referral', 'like', "%{$search}%");
+                ->orWhere('referral', 'like', "%{$search}%")
+                ->orWhere('diagnose', 'like', "%{$search}%");
         });
     }
 

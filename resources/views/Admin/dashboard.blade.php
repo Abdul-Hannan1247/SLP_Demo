@@ -1,214 +1,171 @@
 @extends('admin.layouts.master')
 
-
-
 @section('content')
-            <!-- Page header -->
-            <div class="page-header d-print-none">
-                <div class="container-xl">
-                    <div class="row g-2 align-items-center">
-                        <div class="col">
-                            <!-- Page pre-title -->
-                            <div class="page-pretitle">
-                                Overview
-                            </div>
-                            <h2 class="page-title">
-                                Combo layout
-                            </h2>
-                        </div>
-                        <!-- Page title actions -->
-                        <div class="col-auto ms-auto d-print-none">
-                            <div class="btn-list">
-                                <span class="d-none d-sm-inline">
-                                    <a href="#" class="btn">
-                                        New view
-                                    </a>
-                                </span>
-                                <a href="#" class="btn btn-primary d-none d-sm-inline-block"
-                                    data-bs-toggle="modal" data-bs-target="#modal-report">
-                                    <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M12 5l0 14" />
-                                        <path d="M5 12l14 0" />
-                                    </svg>
-                                    Create new report
-                                </a>
-                                <a href="#" class="btn btn-primary d-sm-none btn-icon" data-bs-toggle="modal"
-                                    data-bs-target="#modal-report" aria-label="Create new report">
-                                    <!-- Download SVG icon from http://tabler-icons.io/i/plus -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
-                                        viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M12 5l0 14" />
-                                        <path d="M5 12l14 0" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Patients</h5>
+                        <p class="card-text" style="font-size:26px;"> {{ $totalPatients ?? 'N/A' }}</p>
                     </div>
                 </div>
             </div>
-            <!-- Page body -->
-            <div class="page-body">
-                <div class="container-xl">
-                    <div class="row row-deck row-cards">
-                        <div class="page-body">
-                            <div class="container-xl">
-                                <div class="row row-cards">
-
-                                    <div class="col-12">
-                                        <div class="card">
-                                            <div class="table-responsive">
-                                                <table class="table table-vcenter card-table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Name</th>
-                                                            <th>Title</th>
-                                                            <th>Role</th>
-                                                            <th class="w-1"></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="d-flex py-1 align-items-center">
-                                                                    <span class="avatar me-2"
-                                                                        style="background-image: url(./static/avatars/006m.jpg)"></span>
-                                                                    <div class="flex-fill">
-                                                                        <div class="font-weight-medium">Lorry Mion
-                                                                        </div>
-                                                                        <div class="text-secondary"><a href="#"
-                                                                                class="text-reset">lmiona@livejournal.com</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div>Automation Specialist IV</div>
-                                                                <div class="text-secondary">Accounting</div>
-                                                            </td>
-                                                            <td class="text-secondary">
-                                                                User
-                                                            </td>
-                                                            <td>
-                                                                <a href="#">Edit</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="d-flex py-1 align-items-center">
-                                                                    <span class="avatar me-2"
-                                                                        style="background-image: url(./static/avatars/004f.jpg)"></span>
-                                                                    <div class="flex-fill">
-                                                                        <div class="font-weight-medium">Leesa Beaty
-                                                                        </div>
-                                                                        <div class="text-secondary"><a href="#"
-                                                                                class="text-reset">lbeatyb@alibaba.com</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div>Editor</div>
-                                                                <div class="text-secondary">Services</div>
-                                                            </td>
-                                                            <td class="text-secondary">
-                                                                Admin
-                                                            </td>
-                                                            <td>
-                                                                <a href="#">Edit</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="d-flex py-1 align-items-center">
-                                                                    <span class="avatar me-2"
-                                                                        style="background-image: url(./static/avatars/007m.jpg)"></span>
-                                                                    <div class="flex-fill">
-                                                                        <div class="font-weight-medium">Perren Keemar
-                                                                        </div>
-                                                                        <div class="text-secondary"><a href="#"
-                                                                                class="text-reset">pkeemarc@yahoo.com</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div>Analog Circuit Design manager</div>
-                                                                <div class="text-secondary">Services</div>
-                                                            </td>
-                                                            <td class="text-secondary">
-                                                                User
-                                                            </td>
-                                                            <td>
-                                                                <a href="#">Edit</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="d-flex py-1 align-items-center">
-                                                                    <span class="avatar me-2">SA</span>
-                                                                    <div class="flex-fill">
-                                                                        <div class="font-weight-medium">Sunny Airey
-                                                                        </div>
-                                                                        <div class="text-secondary"><a href="#"
-                                                                                class="text-reset">saireyd@prlog.org</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div>Nuclear Power Engineer</div>
-                                                                <div class="text-secondary">Engineering</div>
-                                                            </td>
-                                                            <td class="text-secondary">
-                                                                Owner
-                                                            </td>
-                                                            <td>
-                                                                <a href="#">Edit</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>
-                                                                <div class="d-flex py-1 align-items-center">
-                                                                    <span class="avatar me-2"
-                                                                        style="background-image: url(./static/avatars/009m.jpg)"></span>
-                                                                    <div class="flex-fill">
-                                                                        <div class="font-weight-medium">Geoffry
-                                                                            Flaunders</div>
-                                                                        <div class="text-secondary"><a href="#"
-                                                                                class="text-reset">gflaunderse@loc.gov</a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div>Software Test Engineer II</div>
-                                                                <div class="text-secondary">Accounting</div>
-                                                            </td>
-                                                            <td class="text-secondary">
-                                                                Admin
-                                                            </td>
-                                                            <td>
-                                                                <a href="#">Edit</a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Appointments This Month</h5>
+                        <p class="card-text" style="font-size:26px;"> {{ $totalAppointmentsThisMonth ?? 'N/A' }}</p>
                     </div>
                 </div>
             </div>
+
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Patient Registrations Over Time</h5>
+                        <canvas id="registrationChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Patient Gender Distribution</h5>
+                        <canvas id="genderChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Diagnose Distribution</h5>
+                        <canvas id="diagnoseChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
 @endsection
+
+@push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Patient Registration Over Time Chart (Keep this as is)
+        const registrationCtx = document.getElementById('registrationChart').getContext('2d');
+        const registrationChart = new Chart(registrationCtx, {
+            type: 'line',
+            data: {
+                labels: @json($months ?? []),
+                datasets: [{
+                    label: 'New Patient Registrations',
+                    data: @json($counts ?? []),
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Patient Gender Distribution Chart (Keep this as is)
+        const genderCtx = document.getElementById('genderChart').getContext('2d');
+        const genderChart = new Chart(genderCtx, {
+            type: 'bar',
+            data: {
+                labels: @json($genders ?? []),
+                datasets: [{
+                    label: 'Patient Gender Distribution',
+                    data: @json($genderCountsData ?? []),
+                    backgroundColor: [
+                        'rgb(255, 99, 132)',
+                        'rgb(54, 162, 235)',
+                        'rgb(255, 205, 86)'
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+        });
+
+        // Diagnose Distribution Chart
+        const diagnoseCtx = document.getElementById('diagnoseChart').getContext('2d');
+        const diagnoseChart = new Chart(diagnoseCtx, {
+            type: 'bar', // You can also use 'pie' or 'doughnut'
+            data: {
+                labels: @json($diagnoseLabels ?? []),
+                datasets: [{
+                    label: 'Diagnose Count',
+                    data: @json($diagnoseCounts ?? []),
+                    backgroundColor: [
+                        'rgba(153, 102, 255, 0.8)',
+                        'rgba(255, 206, 86, 0.8)',
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(54, 162, 235, 0.8)',
+                        'rgba(255, 159, 64, 0.8)',
+                        'rgba(128, 0, 128, 0.8)',   // Purple
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(0, 128, 0, 0.8)',     // Green
+                        // Add more colors as needed
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)',
+                        'rgba(128, 0, 128, 1)',
+                        'rgba(0, 128, 0, 1)',
+                        // Add more border colors as needed
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of Patients'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Diagnose'
+                        },
+                        ticks: {
+                            autoSkip: false,
+                            maxRotation: 90,
+                            minRotation: 30
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                    title: {
+                        display: true,
+                        text: 'Distribution of Patient Diagnoses'
+                    }
+                }
+            }
+        });
+    </script>
+@endpush

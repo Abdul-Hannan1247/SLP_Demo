@@ -52,6 +52,7 @@
                     <th style="font-size: 12px;">Emergency Contact</th>
                     <th style="font-size: 12px;">Address</th>
                     <th style="font-size: 12px;">Referral</th>
+                    <th style="font-size: 12px;">Diagnose</th>
                     <th style="font-size: 12px;">Actions</th>
                 </tr>
             </thead>
@@ -76,6 +77,7 @@
                         <td>{{ $patient->emergency_contact }}</td>
                         <td>{{ $patient->address }}</td>
                         <td>{{ $patient->referral ? $patient->referral : 'N/A' }}</td>
+                        <td>{{ $patient->diagnose }}</td>
                         <td>
                             <div class="d-flex justify-content-center">
                                 <form action="{{ route('patients.restore', $patient->id) }}" method="POST" class="mr-2">

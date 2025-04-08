@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css">
 
     @stack('styles')
-    <style>
+    {{-- <style>
         @import url('https://rsms.me/inter/inter.css');
 
         :root {
@@ -68,7 +68,7 @@
             fill: white !important;
             color: white !important;
         }
-    </style>
+    </style> --}}
 </head>
 
 <body>

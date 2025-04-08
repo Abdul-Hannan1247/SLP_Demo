@@ -22,6 +22,7 @@ class Patient extends Model
         'picture',
         'files',
         'image_path', // or 'image'
+        'diagnose'
     ];
 
     protected $casts = [
