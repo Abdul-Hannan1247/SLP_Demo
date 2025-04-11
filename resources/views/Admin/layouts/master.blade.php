@@ -72,38 +72,38 @@
 </head>
 
 <body>
-    <script src="{{ asset('admin/assets/dist/js/demo-theme.min.js?1692870487') }}"></script>
     <div class="page">
         <!-- Sidebar -->
         @include('admin.layouts.sidebar')
-
+        
         <!-- Navbar -->
         @include('admin.layouts.header')
-
+        
         <div class="page-wrapper">
-
+            
             @yield('content')
-
+            
             <!-- Footer -->
             @include('admin.layouts.footer')
-
+            
         </div>
     </div>
-
+    
     <!--Models -->
-
+    
     <!--Lib -->
     @stack('scripts')
     @yield('scripts')
     <!-- Tabler Core -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    {{-- <script src="{{ asset('admin/assets/dist/js/demo-theme.min.js?1692870487') }}"></script> 
     <script src="{{ asset('admin/assets/dist/js/tabler.min.js?1692870487') }}" defer></script>
-    <script src="{{ asset('admin/assets/dist/js/demo.min.js?1692870487') }}" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0/dist/js/tom-select.complete.min.js"></script>
+     <script src="{{ asset('admin/assets/dist/js/demo.min.js?1692870487') }}" defer></script> --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script> --}}
+    {{-- <script src="https://cdn.jsdelivr.net/npm/tom-select@2.0.0/dist/js/tom-select.complete.min.js"></script> --}}
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js"></script>
-    <>
+    
 
 </body>
 

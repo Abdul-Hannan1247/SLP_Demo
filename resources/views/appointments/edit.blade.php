@@ -58,7 +58,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Time <span class="text-danger">*</span></label>
-                                        <input type="time" class="form-control @error('time') is-invalid @enderror" name="time" id="timeInput" value="{{ old('time', $appointment->time) }}" required>
+                                        <input type="time" class="form-control @error('time') is-invalid @enderror" name="time" id="timeInput" value="{{ old('time', \Carbon\Carbon::parse($appointment->time)->format('H:i')) }}" required>
                                         @error('time')
                                             <div class="text-danger">{{ $message }}</div>
                                         @enderror
@@ -124,7 +124,6 @@
         });
     </script>
 @endsection
-
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

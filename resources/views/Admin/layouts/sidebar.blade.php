@@ -13,8 +13,8 @@
                 {{-- <img src="./static/logo.svg" width="110" height="32" alt="Tabler" class="navbar-brand-image"> --}}
                 <br>
                 <h2 style="font-family: 'Montserrat', sans-serif;">Lingua Link</h2>       
-            
             </a>
+              <span style="font-family: 'Montserrat', sans-serif; font-size:09px">Beta Version</span>     
         </h1>
         <div class="navbar-nav flex-row d-lg-none">
         </div>
@@ -218,7 +218,7 @@
             </ul>
         </div>
     </div>
-</aside>
+</aside> 
 
 {{-- ---------------------------------------------------------------? --}}
 {{-- Working side bar  End --}}

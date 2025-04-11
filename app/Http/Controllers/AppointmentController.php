@@ -101,6 +101,8 @@ class AppointmentController extends Controller
         $appointment->time = $request->time;
         $appointment->appointment_notes = $request->appointment_notes;
         $appointment->save();
+        // $appointment->update($request->all());
+
 
         // 3. Redirect the user with a success message
         return Redirect::route('appointments.index')->with('success', 'Appointment updated successfully!');
